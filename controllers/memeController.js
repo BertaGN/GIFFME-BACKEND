@@ -27,15 +27,48 @@ const updateMemeTitle = async (req, res) => {
   }
 };
 
-const createMeme = async (req, res) => {
+const uploadMemeFromUrl = async (req, res) => {
+  const {url} = req.body;
+
   try {
-    const { title, imageUrl } = req.body;
-    const meme = new Meme({ title, imageUrl });
-    await meme.save();
-    res.json(meme);
+    if (url) {
+      const gif = new Meme(req.body);
+      await gif.save();
+
+      return res.status(203).json({
+        ok: true,
+        gif,
+      });
+    }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    return res
+      .status(503)
+      .json({ ok: false, msg: "Something bad happened..." });
+  }
+};
+const uploadMemeLocal = async (req, res) => {
+  const { title } = req.body;
+
+  try {
+    const resultImage = await uploadImage(req.file.path);
+
+    const gif = new Meme({
+      title,
+      url: resultImage.secure_url,
+    });
+
+    await fs.unlink(req.file.path);
+    await gif.save();
+
+    return res.status(201).json({
+      ok: true,
+      gif,
+    });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(503)
+      .json({ ok: false, msg: "Something bad happened..." });
   }
 };
 
@@ -54,7 +87,8 @@ const deleteMeme = async (req, res) => {
 
 module.exports = {
   getAllMemes,
-  createMeme,
+  uploadMemeFromUrl,
+  uploadMemeLocal,
   deleteMeme,
   updateMemeTitle
 }
