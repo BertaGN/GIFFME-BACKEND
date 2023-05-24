@@ -27,6 +27,19 @@ const createFunMeme = async (req, res) => {
   }
 };
 
+const updateFunTitle = async (req, res) => {
+  try {
+    const funGifId = req.params.id;
+    const { title } = req.body;
+    const updatedFunGif = await FunGifs.findByIdAndUpdate(funGifId, { title }, { new: true });
+
+    res.json({ success: true, fun: updatedFunGif });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+};
+
 const deleteFunMeme = async (req, res) => {
   try {
     const { id } = req.params;
@@ -41,5 +54,6 @@ const deleteFunMeme = async (req, res) => {
 module.exports = {
     getAllFunMemes,
     createFunMeme,
-    deleteFunMeme
+    deleteFunMeme,
+    updateFunTitle
 }

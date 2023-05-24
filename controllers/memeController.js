@@ -6,7 +6,7 @@ const Meme = require('../models/meme');
 
 const getAllMemes = async (req, res) => {
   try {
-    const memes = await Meme.find({}).sort({ createdAt: -1 });
+    const memes = await Meme.find({tag: "meme"}).sort({ createdAt: -1 });
     res.json({ok:true, memes});
   } catch (error) {
     console.error(error);
@@ -29,7 +29,6 @@ const updateMemeTitle = async (req, res) => {
 
 const uploadMemeFromUrl = async (req, res) => {
   const {url} = req.body;
-
   try {
     if (url) {
       const gif = new Meme(req.body);
@@ -46,32 +45,6 @@ const uploadMemeFromUrl = async (req, res) => {
       .json({ ok: false, msg: "Something bad happened..." });
   }
 };
-const uploadMemeLocal = async (req, res) => {
-  const { title } = req.body;
-
-  try {
-    const resultImage = await uploadImage(req.file.path);
-
-    const gif = new Meme({
-      title,
-      url: resultImage.secure_url,
-    });
-
-    await fs.unlink(req.file.path);
-    await gif.save();
-
-    return res.status(201).json({
-      ok: true,
-      gif,
-    });
-  } catch (error) {
-    console.log(error);
-    return res
-      .status(503)
-      .json({ ok: false, msg: "Something bad happened..." });
-  }
-};
-
 
 
 const deleteMeme = async (req, res) => {
@@ -88,7 +61,6 @@ const deleteMeme = async (req, res) => {
 module.exports = {
   getAllMemes,
   uploadMemeFromUrl,
-  uploadMemeLocal,
   deleteMeme,
   updateMemeTitle
 }
