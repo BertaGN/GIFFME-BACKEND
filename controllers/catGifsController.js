@@ -27,6 +27,19 @@ const createCatMeme = async (req, res) => {
   }
 };
 
+const updateCatsTitle = async (req, res) => {
+  try {
+    const catId = req.params.id;
+    const { title } = req.body;
+    const updatedCats = await CatGifs.findByIdAndUpdate(catId, { title }, { new: true });
+
+    res.json({ success: true, cat: updatedCats });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+};
+
 const deleteCatMeme = async (req, res) => {
   try {
     const { id } = req.params;
@@ -41,5 +54,6 @@ const deleteCatMeme = async (req, res) => {
 module.exports = {
   getAllCatMemes,
   createCatMeme,
-  deleteCatMeme
+  deleteCatMeme,
+  updateCatsTitle
 }
