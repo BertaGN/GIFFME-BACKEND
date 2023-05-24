@@ -6,6 +6,7 @@ const memeRoutes = require('./routes/memeRoutes');
 const seedRouter = require("./routes/SeedRoutes");
 const CatRouter = require("./routes/catGifsRoutes");
 const userRouter = require("./routes/userRoutes");
+const FunRouter = require("./routes/funRoutes");
 
 
 
@@ -19,6 +20,7 @@ app.use(helmet());
 app.use('/meme', memeRoutes);
 app.use('/seed', seedRouter);
 app.use('/catsgifs', CatRouter);
+app.use('/fungifs', FunRouter);
 app.use('/user', userRouter);
 
 
