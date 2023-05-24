@@ -6,7 +6,7 @@ const CatGifs = require('../models/meme');
 
 const getAllCatMemes = async (req, res) => {
   try {
-    const catGif = await CatGifs.find({}).sort({ createdAt: -1 });
+    const catGif = await CatGifs.find({tag: "cats"}).sort({ createdAt: -1 });
     res.json({ok:true, catGif});
   } catch (error) {
     console.error(error);

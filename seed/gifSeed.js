@@ -12,6 +12,7 @@ const seedDatabase = async () => {
       return {
         title: gif.title || "No title",
         url: gif.images.original.url,
+        tag: "cats",
       };
     });
 
@@ -21,6 +22,7 @@ const seedDatabase = async () => {
       return {
         title: gif.title || "No title",
         url: gif.images.original.url,
+        tag: "fun",
       };
     });
 
@@ -30,6 +32,7 @@ const seedDatabase = async () => {
       return {
         title: gif.title || "No title",
         url: gif.images.original.url,
+        tag: "memes",
       };
     });
 
