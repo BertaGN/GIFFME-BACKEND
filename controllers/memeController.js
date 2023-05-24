@@ -14,6 +14,18 @@ const getAllMemes = async (req, res) => {
   }
 };
 
+const updateMemeTitle = async (req, res) => {
+  try {
+    const memeId = req.params.id;
+    const { title } = req.body;
+    const updatedMeme = await Meme.findByIdAndUpdate(memeId, { title }, { new: true });
+
+    res.json({ success: true, meme: updatedMeme });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+};
 
 const createMeme = async (req, res) => {
   try {
@@ -26,6 +38,8 @@ const createMeme = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
+
 
 const deleteMeme = async (req, res) => {
   try {
@@ -41,5 +55,6 @@ const deleteMeme = async (req, res) => {
 module.exports = {
   getAllMemes,
   createMeme,
-  deleteMeme
+  deleteMeme,
+  updateMemeTitle
 }
