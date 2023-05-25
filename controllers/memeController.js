@@ -6,7 +6,7 @@ const Meme = require('../models/meme');
 
 const getAllMemes = async (req, res) => {
   try {
-    const memes = await Meme.find({tag: "meme"}).sort({ createdAt: -1 });
+    const memes = await Meme.find({tag: "memes"}).sort({ createdAt: -1 });
     res.json({ok:true, memes});
   } catch (error) {
     console.error(error);
@@ -28,9 +28,7 @@ const updateMemeTitle = async (req, res) => {
 };
 
 const uploadMemeFromUrl = async (req, res) => {
-  const {url} = req.body;
   try {
-    if (url) {
       const gif = new Meme(req.body);
       await gif.save();
 
@@ -38,7 +36,6 @@ const uploadMemeFromUrl = async (req, res) => {
         ok: true,
         gif,
       });
-    }
   } catch (error) {
     return res
       .status(503)
